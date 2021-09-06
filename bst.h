@@ -17,4 +17,6 @@ int bst_get(struct node_t *t, char *key, struct node_t **target);
 
 int bst_remove(struct node_t **t, char *key);
 
+void bst_free(struct node_t *t);
+
 #endif

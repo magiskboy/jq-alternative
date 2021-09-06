@@ -16,6 +16,11 @@ void free_node(struct node_t *node) {
 
 void merge_grandparent_to_grandchild(struct node_t *parent,
                                      struct node_t *current) {
+
+  // delete root
+  if (parent == NULL)
+    return;
+
   struct node_t *grandchild =
       current->left_node != NULL ? current->left_node : current->right_node;
 
@@ -127,8 +132,16 @@ int bst_remove(struct node_t **root, char *key) {
     merge_grandparent_to_grandchild(parent, deleted);
   }
 
-  free(deleted->data);
-  free((void *)deleted);
+  free_node(deleted);
 
   return 1;
 };
+
+void bst_free(struct node_t *root) {
+  if (root == NULL)
+    return;
+
+  bst_free(root->left_node);
+  bst_free(root->right_node);
+  free_node(root);
+}
