@@ -20,8 +20,9 @@ int __hash_function(char *key, int capacity) {
 int object_new(struct object_t **obj, int capacity) {
   (*obj) = (struct object_t *)malloc(sizeof(struct object_t));
   (*obj)->capacity = capacity;
-  (*obj)->slots = (struct node_t **)malloc(sizeof(struct node_t *) * capacity);
-  memset((*obj)->slots, 0, capacity * sizeof(struct node_t *));
+  (*obj)->slots =
+      (struct bst_node_t **)malloc(sizeof(struct bst_node_t *) * capacity);
+  memset((*obj)->slots, 0, capacity * sizeof(struct bst_node_t *));
 
   return 0;
 }
@@ -35,7 +36,7 @@ int object_setitem(object_t *obj, char *key, void *item) {
 int object_getitem(object_t *obj, char *key, void **item) {
   int index = __hash_function(key, obj->capacity);
 
-  struct node_t *target;
+  struct bst_node_t *target;
   if (!bst_get(obj->slots[index], key, &target))
     return 0;
 

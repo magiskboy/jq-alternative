@@ -4,7 +4,7 @@
 #include <string.h>
 
 int main() {
-  struct node_t **bst;
+  struct bst_node_t **bst;
   *bst = NULL;
   int retval;
   assert(bst_insert(bst, "1", "foo") == 1);
@@ -12,7 +12,7 @@ int main() {
   assert(bst_insert(bst, "3", "baz") == 1);
   assert(bst_insert(bst, "4", "foz") == 1);
 
-  struct node_t *target;
+  struct bst_node_t *target;
   assert(bst_get(*bst, "3", &target) == 1);
   assert(strcmp(target->key, "3") == 0);
   assert(strcmp((char *)target->data, "baz") == 0);

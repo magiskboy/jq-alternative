@@ -8,20 +8,20 @@ int key_cmp(char *left, char *right) {
   return strcmp(left, right) < 0;
 }
 
-void free_node(struct node_t *node) {
+void free_node(struct bst_node_t *node) {
   free(node->data);
   free(node->key);
   free(node);
 }
 
-void merge_grandparent_to_grandchild(struct node_t *parent,
-                                     struct node_t *current) {
+void merge_grandparent_to_grandchild(struct bst_node_t *parent,
+                                     struct bst_node_t *current) {
 
   // delete root
   if (parent == NULL)
     return;
 
-  struct node_t *grandchild =
+  struct bst_node_t *grandchild =
       current->left_node != NULL ? current->left_node : current->right_node;
 
   if (current->key <= parent->key)
@@ -30,17 +30,18 @@ void merge_grandparent_to_grandchild(struct node_t *parent,
     parent->right_node = grandchild;
 }
 
-char *find_min(struct node_t *root) {
-  struct node_t *current = root;
+char *find_min(struct bst_node_t *root) {
+  struct bst_node_t *current = root;
   while (current->left_node != NULL) {
     current = current->left_node;
   }
   return current->key;
 }
 
-int bst_create_new_node(struct node_t **t, char *key, void *data,
-                        struct node_t *left_node, struct node_t *right_node) {
-  (*t) = (struct node_t *)malloc(sizeof(struct node_t));
+int bst_create_new_node(struct bst_node_t **t, char *key, void *data,
+                        struct bst_node_t *left_node,
+                        struct bst_node_t *right_node) {
+  (*t) = (struct bst_node_t *)malloc(sizeof(struct bst_node_t));
   if ((*t) == NULL)
     return 0;
   (*t)->key = (char *)malloc(sizeof(key));
@@ -58,8 +59,8 @@ int bst_create_new_node(struct node_t **t, char *key, void *data,
   return 1;
 }
 
-int bst_insert(struct node_t **root, char *key, void *data) {
-  struct node_t *new_node;
+int bst_insert(struct bst_node_t **root, char *key, void *data) {
+  struct bst_node_t *new_node;
 
   if (!bst_create_new_node(&new_node, key, data, NULL, NULL)) {
     perror("Can't allocate memory for the new node");
@@ -71,7 +72,7 @@ int bst_insert(struct node_t **root, char *key, void *data) {
     return 1;
   }
 
-  struct node_t *current = *root;
+  struct bst_node_t *current = *root;
   while (1) {
     if (strcmp(new_node->key, current->key) == 0) {
       memcpy(current->data, data, sizeof(data));
@@ -98,8 +99,8 @@ int bst_insert(struct node_t **root, char *key, void *data) {
   return 0;
 };
 
-int bst_get(struct node_t *root, char *key, struct node_t **target) {
-  struct node_t *current = root;
+int bst_get(struct bst_node_t *root, char *key, struct bst_node_t **target) {
+  struct bst_node_t *current = root;
   while (current != NULL && strcmp(key, current->key) != 0) {
     current =
         key_cmp(key, current->key) ? current->left_node : current->right_node;
@@ -112,8 +113,8 @@ int bst_get(struct node_t *root, char *key, struct node_t **target) {
   return 1;
 };
 
-int bst_remove(struct node_t **root, char *key) {
-  struct node_t *deleted = *root, *parent = NULL;
+int bst_remove(struct bst_node_t **root, char *key) {
+  struct bst_node_t *deleted = *root, *parent = NULL;
   while (deleted != NULL && strcmp(key, deleted->key) != 0) {
     parent = deleted;
     deleted =
@@ -137,7 +138,7 @@ int bst_remove(struct node_t **root, char *key) {
   return 1;
 };
 
-void bst_free(struct node_t *root) {
+void bst_free(struct bst_node_t *root) {
   if (root == NULL)
     return;
 
