@@ -1,4 +1,4 @@
-#include "./bst.h"
+#include "../bst.h"
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>

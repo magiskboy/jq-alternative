@@ -2,6 +2,8 @@ GCC = gcc
 
 FLAGS = -lm
 
+BUILD = build
+
 .PHONY: all
 
 all: jq
@@ -16,21 +18,22 @@ main.o: main.c
 	${GCC} -c main.c -o main.o
 
 jq: bst.o main.o
-	${GCC} main.o bst.o ${FLAGS} -o jq
+	${GCC} main.o bst.o ${FLAGS} -o ${BUILD}/jq
 
-test_bst.o: test_bst.c
-	${GCC} -c test_bst.c -o test_bst.o
+test_bst.o: ./test/test_bst.c
+	${GCC} -c ./test/test_bst.c -o test_bst.o
 
-test_object.o: test_object.c
-	${GCC} -c test_object.c ${FLAGS} -o test_object.o
+test_object.o: ./test/test_object.c
+	${GCC} -c ./test/test_object.c ${FLAGS} -o test_object.o
 
 test_bst: bst.o test_bst.o 
-	${GCC} test_bst.o bst.o ${FLAGS} -o test_bst
-	@./test_bst
+	${GCC} test_bst.o bst.o ${FLAGS} -o ${BUILD}/test_bst
+	@./${BUILD}/test_bst
 
 test_object: bst.o object.o test_object.o
-	${GCC} test_object.o object.o bst.o ${FLAGS} -o test_object
-	@./test_object
+	${GCC} test_object.o object.o bst.o ${FLAGS} -o ${BUILD}/test_object
+	@./${BUILD}/test_object
 
 clean:
 	@rm *.o
+	@rm -rf ${BUILD}
