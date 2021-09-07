@@ -20,6 +20,8 @@ main.o: main.c
 jq: bst.o main.o
 	${GCC} main.o bst.o ${FLAGS} -o ${BUILD}/jq
 
+test: test_bst test_object
+
 test_bst.o: ./test/test_bst.c
 	${GCC} -c ./test/test_bst.c -o test_bst.o
 
