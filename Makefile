@@ -20,21 +20,18 @@ main.o: main.c
 jq: bst.o main.o
 	${GCC} main.o bst.o ${FLAGS} -o ${BUILD}/jq
 
-test: test_bst test_object
+test: test.o test_bst.o test_object.o object.o bst.o
+	${GCC} test.o test_bst.o test_object.o object.o bst.o ${FLAGS} -o ${BUILD}/test
+	./build/test
+
+test.o: ./test/main.c
+	${GCC} -c ./test/main.c -o test.o
 
 test_bst.o: ./test/test_bst.c
 	${GCC} -c ./test/test_bst.c -o test_bst.o
 
 test_object.o: ./test/test_object.c
 	${GCC} -c ./test/test_object.c ${FLAGS} -o test_object.o
-
-test_bst: bst.o test_bst.o 
-	${GCC} test_bst.o bst.o ${FLAGS} -o ${BUILD}/test_bst
-	@./${BUILD}/test_bst
-
-test_object: bst.o object.o test_object.o
-	${GCC} test_object.o object.o bst.o ${FLAGS} -o ${BUILD}/test_object
-	@./${BUILD}/test_object
 
 clean:
 	@rm *.o

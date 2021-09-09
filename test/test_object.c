@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <string.h>
 
-int main() {
+void object_test_suite() {
   struct object_t *obj;
 
   object_new(&obj, 2000);
@@ -20,6 +20,4 @@ int main() {
 
   /* object_free(obj); */
   /* assert(obj == NULL); */
-
-  return 0;
 }

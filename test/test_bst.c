@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int main() {
+void bst_test_suite() {
   struct bst_node_t **bst;
   *bst = NULL;
   int retval;
@@ -23,5 +23,4 @@ int main() {
 
   assert(bst_remove(bst, "3") == 1);
   assert(bst_get(*bst, "3", &target) == 0);
-  return 0;
 }
